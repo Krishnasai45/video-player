@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react';
 import VideoPlayer from './VideoPlayer';
 import Playlist from './PlayList';
 import mediaJSON from '../VideoData';
+import '../App.css'
 
 const HomeScreen=()=> {
     const initialPlayList = mediaJSON?.categories[0]?.videos || []
@@ -33,7 +34,7 @@ const HomeScreen=()=> {
       };
   
     return (
-      <div className='main-page' style={{display:'flex',width:'100%',flexWrap:'wrap', gap: '1rem'}}>
+      <div className='main-page'>
         <VideoPlayer
           video={currentVideo}
           autoplay={true}
