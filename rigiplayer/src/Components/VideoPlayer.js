@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';
 import '../Styles/Player.css'
 
-function VideoPlayer({ video }) {
+const  VideoPlayer = ({ video })=>{
     const src = video?.sources
     const videoRef = useRef(null);
     const playerRef = useRef(null);

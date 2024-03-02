@@ -3,7 +3,7 @@ import VideoPlayer from './VideoPlayer';
 import Playlist from './PlayList';
 import mediaJSON from '../VideoData';
 
-function HomeScreen() {
+const HomeScreen=()=> {
     const initialPlayList = mediaJSON?.categories[0]?.videos || []
     const [playlist, setPlaylist] = useState(() => {
         const storedPlaylist = sessionStorage.getItem('playlist');

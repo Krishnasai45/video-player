@@ -1,6 +1,6 @@
 import React from 'react';
 
-function PlayListCard({ video,handleVideoClick,videoId }) {
+const  PlayListCard =({ video,handleVideoClick,videoId })=> {
     return (
         <div className='card'>
             <div className={`image ${videoId == video.id ? 'playing' : '' }`}onClick={()=>handleVideoClick(video)}>

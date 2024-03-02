@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import PlayListCard from './PlayListCard';
 import '../Styles/Playlist.css';
 
-function Playlist({ videos, onSelectVideo,handleVideoClick,currentVideoId }) {
+const Playlist=({ videos, onSelectVideo,handleVideoClick,currentVideoId })=> {
     const handleDragStart = (e, index) => {
       e.dataTransfer.setData('index', index);
     };
