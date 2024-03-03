@@ -6,3 +6,8 @@
   flex-wrap: wrap;
   gap: 1rem;
 }
+ .title{
+  margin: auto;
+  text-align: center;
+
+}

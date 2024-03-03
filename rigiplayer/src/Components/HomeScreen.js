@@ -32,13 +32,15 @@ const HomeScreen=()=> {
       };
   
     return (
+        <>
+        <h2 className='title'>React Video Player</h2>
       <div className='main-page'>
         <VideoPlayer
           video={currentVideo}
           playlist={playlist} currentVideoId={currentVideoId} handleVideoChange={handleVideoClick}
         />
         <Playlist videos={playlist} onSelectVideo={handleSelectVideo} handleVideoClick={handleVideoClick} currentVideoId={currentVideoId} />
-      </div>
+      </div></>
     );
   }
   

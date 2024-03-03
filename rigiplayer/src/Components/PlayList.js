@@ -27,6 +27,7 @@ const Playlist=({ videos, onSelectVideo,handleVideoClick,currentVideoId })=> {
   
     return (
       <div className='play-list'>
+        <h3 className='list-title'>PlayList</h3>
         {videos.map((video, index) => (
           <div
             key={video.id}
