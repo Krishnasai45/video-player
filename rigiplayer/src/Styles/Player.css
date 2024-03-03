@@ -1,6 +1,6 @@
 .container{
     width: 65%;
-    height: 40%;
+    height:30%;
     margin: 10px;
     }
     .video-player {
@@ -11,16 +11,13 @@
       }
       
       .video {
-        /* display: block; */
     
         object-fit: cover;
         /* width: 100%;
         height: 30%; */
       }
       .video-seek{
-        /* position: absolute;
-        bottom: 8%;
-        left: 0; */
+
         width: 98%;
         margin-left:5px;
         /* padding: 2px; */
@@ -58,23 +55,29 @@
       }
     
       .video-player:hover .controls {
-        display: inline-block; /* Show controls on hover */
+        display: inline-block; 
       }
       .mains{
-        /* padding: 5px; */
         display: flex;
         align-items: center;
         justify-content: space-between;
       }
       
-      .controls button,
       .controls input[type="range"] {
         margin-right: 5px;
       }
       
-      .controls button:last-child,
       .controls input[type="range"]:last-child {
         margin-right: 0;
+      }
+
+      button{
+        margin: 5px;
+        /* width: auto; */
+      }
+      button svg{
+        margin-top: 5px;
+        /* margin-left: 50%; */
       }
     
       .volume-range{
@@ -84,7 +87,7 @@
       .volume-range:hover{
             width: 100px;
       }
-      .left-controls{
+      .left-controls,.right-controls{
         display: flex;
         align-items: center;
       }
@@ -107,6 +110,39 @@
         font-size: 14px;
         line-height: 20px;
       }
+
+      .speed-dropdown {
+        text-align: center;
+    }
+    
+    .speed-dropdown select {
+        width: 28px;
+        height: 28px;
+        appearance: none;
+        text-align: center;
+        font-weight: 400;
+        border-radius: 2px;
+        font-size: 10px;
+    }
+    select option{
+        background-color:#27a0ff ;
+        color: #f2f2f2;
+        font-size: 15px;
+    }
+
+    .auto-play{
+        border: none;
+        background-color: #27a0ff;
+        color: #f2f2f2;
+        font-size: 15px;
+        font-weight: 500;
+        text-align: center;
+        border-radius: 5px;
+
+    }
+
+
+    select option:hover{background-color:yellow;}
     
       @media (max-width: 980px){
         .container{

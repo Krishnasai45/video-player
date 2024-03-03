@@ -1,7 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
 import '../Styles/Player.css'
+import { FaPlay, FaPause, FaVolumeMute, FaVolumeUp } from "react-icons/fa";
+import { AiOutlineFullscreen, AiOutlineFullscreenExit } from "react-icons/ai";
 
-const  VideoPlayer = ({ video })=>{
+
+
+const VideoPlayer = ({ video, playlist, currentVideoId, handleVideoChange }) => {
     const src = video?.sources
     const videoRef = useRef(null);
     const playerRef = useRef(null);
@@ -35,21 +39,38 @@ const  VideoPlayer = ({ video })=>{
             setCurrentTime(0);
             setIsPlaying(false);
         };
+        const handleVideoEndedAutoPlay = () => {
+            
+            setIsPlaying(false);
+            const currentIndex = playlist.findIndex(item => item.id === currentVideoId);
+            const nextIndex = currentIndex + 1 < playlist.length ? currentIndex + 1 : 1;
+            handleVideoChange(playlist[nextIndex]); 
+            
+        };
 
         video.addEventListener('timeupdate', handleTimeUpdate);
         video.addEventListener('durationchange', handleDurationChange);
         video.addEventListener('play', handlePlayPause);
         video.addEventListener('pause', handlePlayPause);
-        video.addEventListener('ended', handleVideoEnded);
+        video.addEventListener('ended', autoPlay ?handleVideoEndedAutoPlay: handleVideoEnded);
 
         return () => {
             video.removeEventListener('timeupdate', handleTimeUpdate);
             video.removeEventListener('durationchange', handleDurationChange);
             video.removeEventListener('play', handlePlayPause);
             video.removeEventListener('pause', handlePlayPause);
-            video.removeEventListener('ended', handleVideoEnded);
+            video.removeEventListener('ended', autoPlay ?handleVideoEndedAutoPlay: handleVideoEnded);
         };
     }, [src]);
+
+
+    useEffect(() => {
+        const video = videoRef.current;
+        video.play(); 
+        setIsPlaying(true); 
+    }, [src]);
+
+
 
     useEffect(() => {
         const video = videoRef.current;
@@ -221,63 +242,64 @@ const  VideoPlayer = ({ video })=>{
 
     return (
         <div className='container'>
-        <div className="video-player" ref={playerRef}>
-            <video
-                ref={videoRef}
-                src={src}
-                className="video"
-                onEnded={() => setIsPlaying(false)}
-                width={"100%"}
-                // height={'100%'}
-            ></video>
-            <div className="controls" ref={controlsRef}>
-                <div>
-                    <input
-                        type="range"
-                        className='video-seek'
-                        min={0}
-                        max={duration}
-                        value={currentTime}
-                        onChange={handleSeek}
-                    /></div>
-                <div className='mains'>
-                    <div className='left-controls'>
-                        <button onClick={togglePlayPause}>
-                            {isPlaying ? 'Pause' : 'Play'}
-                        </button>
-                        <div className='span'>
-                            {formatTime(currentTime)}/{formatTime(duration)}</div>
-                        <button onClick={toggleMute} className='volume-toggle'>
-                            {isMuted ? 'Unmute' : 'Mute'}
-                        </button>
+            <div className="video-player" ref={playerRef}>
+                <video
+                    ref={videoRef}
+                    src={src}
+                    className="video"
+                    // onEnded={() => setIsPlaying(false)}
+                    width={"100%"}
+                    height={'100%'}
+                ></video>
+                <div className="controls" ref={controlsRef}>
+                    <div>
                         <input
                             type="range"
-                            className='volume-range'
+                            className='video-seek'
                             min={0}
-                            max={1}
-                            step={'any'}
-                            value={volume}
-                            onChange={handleVolumeChange}
+                            max={duration}
+                            value={currentTime}
+                            onChange={handleSeek}
                         /></div>
-                    <div className='right-controls'>
-                        <button onClick={toggleFullScreen}>
-                            {isFillScreen ? 'Exit Fullscreen' : 'Fullscreen'}
-                        </button>
-                        <input
-                            type="range"
-                            min={0.25}
-                            max={2}
-                            step={0.1}
-                            value={playbackSpeed}
-                            onChange={handleSpeedChange}
-                        />
-                        <button onClick={toggleAutoPlay}>
-                            {autoPlay ? 'Disable Autoplay' : 'Enable Autoplay'}
-                        </button></div>
+                    <div className='mains'>
+                        <div className='left-controls'>
+                            <button onClick={togglePlayPause}>
+                                {isPlaying ? <FaPause /> : <FaPlay />}
+                            </button>
+                            <div className='span'>
+                                {formatTime(currentTime)}/{formatTime(duration)}</div>
+                            <button onClick={toggleMute} className='volume-toggle'>
+                                {isMuted ? <FaVolumeUp /> : <FaVolumeMute />}
+                            </button>
+                            <input
+                                type="range"
+                                className='volume-range'
+                                min={0}
+                                max={1}
+                                step={'any'}
+                                value={volume}
+                                onChange={handleVolumeChange}
+                            /></div>
+                        <div className='right-controls'>
+                            <button onClick={toggleFullScreen}>
+                                {isFillScreen ? <AiOutlineFullscreenExit /> : <AiOutlineFullscreen />}
+                            </button>
+                            <div className="speed-dropdown">
+                                <select value={playbackSpeed} onChange={handleSpeedChange} >
+                                    <option value={0.25}>0.25x</option>
+                                    <option value={0.5}>0.5x</option>
+                                    <option value={1}>1x</option>
+                                    <option value={1.5}>1.5x</option>
+                                    <option value={2}>2x</option>
+                                </select>
+                            </div>
+                            <button onClick={toggleAutoPlay} className='auto-play'>
+                                {autoPlay ? 'Disable Autoplay' : 'Enable Autoplay'}
+                            </button></div>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div className='discription'>
+            <div className='discription'>
                 <h4>{video.title}</h4>
                 <p>{video.description}</p>
             </div>

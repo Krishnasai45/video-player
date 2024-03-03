@@ -10,7 +10,6 @@ const HomeScreen=()=> {
         const storedPlaylist = sessionStorage.getItem('playlist');
         return storedPlaylist ? JSON.parse(storedPlaylist) : initialPlayList
       });
-    const [selectedVideo, setSelectedVideo] = useState(playlist[0].sources);
     const [currentVideoId,setCurrentVideoId] = useState(playlist[0].id)
     const [currentVideo,setCurrentVideo] = useState(playlist[0])
 
@@ -21,7 +20,6 @@ const HomeScreen=()=> {
   
     const handleVideoClick = (video) => {
         setCurrentVideo(video)
-      setSelectedVideo(video.source);
       setCurrentVideoId(video.id)
     };
   
@@ -37,8 +35,7 @@ const HomeScreen=()=> {
       <div className='main-page'>
         <VideoPlayer
           video={currentVideo}
-          autoplay={true}
-          playbackSpeed={1}
+          playlist={playlist} currentVideoId={currentVideoId} handleVideoChange={handleVideoClick}
         />
         <Playlist videos={playlist} onSelectVideo={handleSelectVideo} handleVideoClick={handleVideoClick} currentVideoId={currentVideoId} />
       </div>
