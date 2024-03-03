@@ -16,7 +16,7 @@ const VideoPlayer = ({ video, playlist, currentVideoId, handleVideoChange }) => 
     const [volume, setVolume] = useState(1);
     const [isMuted, setIsMuted] = useState(false);
     const [playbackSpeed, setPlaybackSpeed] = useState(1);
-    const [autoPlay, setAutoPlay] = useState(false);
+    const [autoPlay, setAutoPlay] = useState(true);
     const [isFillScreen, setIsFullScreen] = useState(false)
     const [isSeeking, setIsSeeking] = useState(false);
 
@@ -61,14 +61,19 @@ const VideoPlayer = ({ video, playlist, currentVideoId, handleVideoChange }) => 
             video.removeEventListener('pause', handlePlayPause);
             video.removeEventListener('ended', autoPlay ?handleVideoEndedAutoPlay: handleVideoEnded);
         };
-    }, [src]);
+    }, [src,playlist,currentVideoId]);
+
 
 
     useEffect(() => {
         const video = videoRef.current;
-        video.play(); 
-        setIsPlaying(true); 
-    }, [src]);
+        if (autoPlay && video.paused) {
+            video.play().catch(error => {
+                console.error('Autoplay failed:', error);
+            });
+        }
+        setIsPlaying(!video.paused);
+    }, [src, autoPlay]);
 
 
 
